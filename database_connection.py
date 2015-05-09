@@ -13,6 +13,7 @@ class database_connection:
             if not database_connection.is_connection():
                 self.__connect = firebirdsql.connect(
                     dsn      = 'class.mmcs.sfedu.ru:/fbdata/38mi/newtest_podgr3.fdb',
+                    # TODO: вынести в конфиг. файл
                     user     = user,
                     password = password)
 
