@@ -1,9 +1,6 @@
 import firebirdsql
 import functools
 
-# Модуль, реализующий соединение и работу с базой данных. Используется библиотека firebirdsql.
-# Реализуется посредством паттерна Singleton. В каждый момент времени допускается только одно соединение
-
 class not_connected_exception(Exception):
     pass
 
@@ -13,7 +10,6 @@ class database_connection:
             if not database_connection.is_connection():
                 self.__connect = firebirdsql.connect(
                     dsn      = 'class.mmcs.sfedu.ru:/fbdata/38mi/newtest_podgr3.fdb',
-                    # TODO: вынести в конфиг. файл
                     user     = user,
                     password = password)
 
@@ -65,7 +61,6 @@ class database_connection:
         if database_connection.__instance is None:
             database_connection.__instance = database_connection.__connection(user, password)
         return database_connection.__instance
-
 
 if __name__ == '__main__':
     database_connection.connect('IT38', 'it38')

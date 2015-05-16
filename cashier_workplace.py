@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from cashier_info import cashier_info
 from database_connection import database_connection
 import datetime
@@ -5,7 +8,6 @@ import datetime
 class invalid_environments_exception(Exception):
     pass
 
-#Класс, предоставляющий API для работы с кассой
 
 class cashier_workplace:
     __is_working = False
