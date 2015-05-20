@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import firebirdsql
 import functools
 
@@ -9,6 +12,7 @@ class database_connection:
         def __init__(self, user, password):
             if not database_connection.is_connection():
                 self.__connect = firebirdsql.connect(
+                    #TODO вынести в конфиг
                     dsn      = 'class.mmcs.sfedu.ru:/fbdata/38mi/newtest_podgr3.fdb',
                     user     = user,
                     password = password)
@@ -43,7 +47,7 @@ class database_connection:
             raise not_connected_exception
         cur = database_connection.__get_instance().cursor()
         req_fields = functools.reduce(lambda x, y: x + ', ' + y, fields)
-        cur.execute('select ' + req_fields + ' from ' + table)
+        cur.execute('select ' + req_fields + ' from ' + table) #TODO использовать format
         return cur.fetchall()
 
     @staticmethod

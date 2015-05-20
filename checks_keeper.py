@@ -3,13 +3,27 @@
 
 class checks_keeper:
     def __init__(self):
-        self._current_list = [] # List[(goods_id, goods_cnt]
+        self._current_list = {} # List[(goods_id, goods_cnt)]
 
     def add_record(self, id, cnt):
-        self._current_list.append((id, cnt))
+        id, cnt = int(id), int(cnt)
+        if not self._current_list.has_key(id):
+            self._current_list[id] = cnt
+        else:
+            self._current_list[id] += cnt
 
-    def reset(self):
-        self._current_list = []
+    def rem_record(self, id):
+        if self._current_list.has_key(id):
+            self._current_list.pop(id, None)
+
 
     def get_all_records(self):
-        return self._current_list
+        crnt_list = []
+        for key, value in self._current_list.iteritems():
+            crnt_list.append((key, value))
+        return crnt_list
+
+    @staticmethod
+    def get_str_view(g_list, id, count):
+        return str(id) + ":" + str(count)
+        pass #TODO
