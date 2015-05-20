@@ -24,9 +24,11 @@ class cashier_workplace:
         # TODO: Checking status
         assert database_connection.is_connection() and not cashier_workplace.is_opened() \
                and not cashier_info.is_busy()
-        [(auth_id, cashier_name)]           = database_connection.execute_action('AUTH_CASHIER', cashier_id)
-        [(auth_id, warehouse_name, wh_loc)] = database_connection.execute_action('AUTH_WAREHOUSE', warehouse_id)
+        [(auth_id_cs, cashier_name)]           = database_connection.execute_action('AUTH_CASHIER', cashier_id)
+        [(auth_id_wh, warehouse_name, wh_loc)] = database_connection.execute_action('AUTH_WAREHOUSE', warehouse_id)
         cashier_info.new_cashier(cashier_name,cashier_id, warehouse_name, warehouse_id)
+        if auth_id_cs == 1 or auth_id_wh == 1:
+            return False #TODO: Output some message
         return True
 
     @staticmethod
@@ -88,20 +90,28 @@ class cashier_workplace:
         Table, Fields = 'GOODS', ['ID', 'NAME']
         return database_connection.get_data_from_table(Table, Fields)
 
+    @staticmethod
+    def get_bonus_for_cashier():
+        id = cashier_info.get_cashier_id()
+        res = database_connection.execute_action('GET_CASHIER_BONUS', (id))
+        print(res)
+
+
 
 if __name__ == '__main__':
      database_connection.connect('IT38', 'it38')
-     cashier_workplace.authorization('2', '1')
+     print(cashier_workplace.authorization('2', '1'))
      cashier_workplace.open_cash()
 
 
      records = [(1, 2), (2, 2)]
 
-     (op, List) = cashier_workplace.make_purchase(records)
-     print((op, List))
+     # (op, List) = cashier_workplace.make_purchase(records)
+     # print((op, List))
+     #
+     # [(res)] = cashier_workplace.make_refund(op, 2)
+     # print(res)
+     # cashier_workplace.close_cash()
 
-     [(res)] = cashier_workplace.make_refund(op, 2)
-     print(res)
-     cashier_workplace.close_cash()
      database_connection.close()
 
